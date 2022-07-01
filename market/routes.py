@@ -37,9 +37,13 @@ def register_page():
 def login_page():   
     form = LoginForm() 
     if form.validate_on_submit():
-        attempted_user = User.query.filter_by(form.username.data).first()
+        attempted_user = User.query.filter_by(username = form.username.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password = form.password.data):
+            
             login_user(attempted_user)
-            flash(f'Success! You are logged in as: {attempted_user.username}') #extra message
+            flash(f'Success! You are logged in as: {attempted_user.username}',category='success') #extra message
+            return redirect(url_for('market_page'))
+        else:
+            flash('Username and password are not match ! Please try again',category='danger')     #red color message
     return render_template('login.html',form=form)
     
