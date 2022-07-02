@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for,flash
 from market.models import Item, User
 from market.forms import RegisterForm,LoginForm
 from market import db
-from flask_login import login_user
+from flask_login import login_user,logout_user
 
 
 @app.route("/")  # decorators
@@ -47,4 +47,9 @@ def login_page():
         else:
             flash('Username and password are not match ! Please try again',category='danger')     #red color message
     return render_template('login.html',form=form)
-    
+
+@app.route("/logout")
+def logout_page():   
+    logout_user()     
+    flash("You have been logged out!",category='info')  
+    return redirect(url_for("home_page"))
