@@ -31,6 +31,7 @@ def register_page():
     if form.errors != {}: #if there are not errors from the validations
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}',category='danger')
+
     return render_template('register.html', form=form)
 
 @app.route("/login",methods=['GET' , 'POST'])
