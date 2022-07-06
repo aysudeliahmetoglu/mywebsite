@@ -1,5 +1,5 @@
 from market import app
-from flask import render_template, redirect, url_for, flash 
+from flask import render_template, redirect, url_for, flash ,request
 from market.models import Item, User
 from market.forms import RegisterForm, LoginForm, PurchaseItemForm
 from market import db
@@ -12,13 +12,14 @@ def home_page():
     return render_template("home.html")
 
 
-@app.route("/market")
+@app.route("/market", methods=['GET', 'POST'])
 @login_required
 def market_page():
     purchase_form = PurchaseItemForm()
-    items = Item.query.all()
     if purchase_form.validate_on_submit():
-        print(purchase_form['submit'])
+        print(request.form.get('purchased_item'))
+    items = Item.query.all()
+    
     
     return render_template("market.html", items=items,purchase_form=purchase_form)
 
